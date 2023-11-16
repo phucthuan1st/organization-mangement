@@ -31,7 +31,8 @@ const Login = ({ onAuthentication }) => {
   ];
 
   const errors = {
-    not_exist_uname: "Username does not exist. Please register first.",
+    not_exist_uname:
+      "Username does not exist. Please contact the administrator.",
     wrong_password: "Incorrect password.",
     blank_field: "Please fill in the required fields.",
   };
@@ -93,11 +94,11 @@ const Login = ({ onAuthentication }) => {
               //src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
               src="http://www.chemistry.hcmus.edu.vn/images/logo%20KHTN_REMAKE%201.png"
               className="img-fluid"
-              alt="Sample img"
+              alt="Khoa hoc Tu nhien"
             />
           </div>
           <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-            <form>
+            <form className="login-form">
               <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
                 <p className="lead fw-normal mb-0 me-3">Sign in with</p>
                 <button

@@ -5,25 +5,28 @@
   height: 1px;
   background: #eee;
 }
+
 .h-custom {
   height: calc(100% - 73px);
 }
+
+/* add these styles for responsiveness */
+@media (max-width: 768px) {
+  .login-form {
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .login-form {
+    margin-top: 40px;
+  }
+}
+
 @media (max-width: 450px) {
   .h-custom {
     height: 100%;
   }
-}
-
-.app {
-  font-family: sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 20px;
-  height: 100vh;
-  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
-  background-color: #f8f9fd;
 }
 
 input[type="button"] {

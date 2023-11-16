@@ -1,8 +1,11 @@
+import "bootstrap/dist/css/bootstrap.css";
+import React from "react";
+import "./Dashboard.css";
+import SideNavBar from "./Sidebar";
+
 const Dashboard = () => {
   return (
-    <div className="dashboard">
-      <h2>This is Dashboard</h2>
-    </div>
+    <SideNavBar/>
   );
 };
 
