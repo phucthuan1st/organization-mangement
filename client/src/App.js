@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Login from "./components/Login";
+import Dashboard from "./components/Dashboard";
+import React, { useState } from "react";
 
 function App() {
+  // State to track authentication status
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const handleAuthentication = (token) => {
+    // TODO: implement authenticate login token here
+    // Assuming successful authentication sets isAuthenticated to true
+    setIsAuthenticated(true);
+    // perform additional setup here
+  };
+
+  // Function to handle logout
+  const handleLogout = (token) => {
+    // TODO: Perform logout actions, such as clearing the token
+    setIsAuthenticated(false);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {isAuthenticated ? (
+        // If authenticated, display the dashboard
+        <Dashboard onLogout={handleLogout} />
+      ) : (
+        // If not authenticated, display the login section
+        <Login onAuthentication={handleAuthentication} />
+      )}
     </div>
   );
 }

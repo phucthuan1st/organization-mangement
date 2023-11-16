@@ -14,10 +14,9 @@ import "./Login.css";
 
 library.add(faFacebookF, faTwitter, faLinkedinIn, faGoogle);
 
-const LoginSection = () => {
+const Login = ({ onAuthentication }) => {
   // React States
   const [errorMessages, setErrorMessages] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   // User Login info
   const database = [
@@ -39,7 +38,7 @@ const LoginSection = () => {
 
   const handleBlur = (event) => {
     const { name, value } = event.target;
-  
+
     // Check if the field is blank
     if (!value) {
       setErrorMessages({ name: `${name}_blank`, message: errors.blank_field });
@@ -48,18 +47,18 @@ const LoginSection = () => {
       setErrorMessages({});
     }
   };
-  
+
   const handleClick = (event) => {
     event.preventDefault();
-  
+
     const { uname, pass } = document.forms[0];
-  
+
     // Check if any field is blank on button click
     if (!uname.value || !pass.value) {
       setErrorMessages({ name: "blank", message: errors.blank_field });
       return;
     }
-  
+
     // TODO: implement authentication process here
     // Below is for testing only
     const userData = database.find((user) => user.username === uname.value);
@@ -70,7 +69,7 @@ const LoginSection = () => {
           message: errors.wrong_password,
         });
       } else {
-        setIsSubmitted(true);
+        onAuthentication();
       }
     } else {
       setErrorMessages({
@@ -79,7 +78,7 @@ const LoginSection = () => {
       });
     }
   };
-  
+
   const renderErrorMessage = (name) =>
     name === errorMessages.name && (
       <div className="error">{errorMessages.message}</div>
@@ -92,13 +91,13 @@ const LoginSection = () => {
           <div className="col-md-9 col-lg-6 col-xl-5">
             <img
               //src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
-              src='http://www.chemistry.hcmus.edu.vn/images/logo%20KHTN_REMAKE%201.png'
+              src="http://www.chemistry.hcmus.edu.vn/images/logo%20KHTN_REMAKE%201.png"
               className="img-fluid"
               alt="Sample img"
             />
           </div>
           <div className="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-            <form onClick={handleClick}>
+            <form>
               <div className="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
                 <p className="lead fw-normal mb-0 me-3">Sign in with</p>
                 <button
@@ -229,11 +228,7 @@ const LoginSection = () => {
     </section>
   );
 
-  return (
-    <div className="loginForm">
-      {isSubmitted ? <div> {/* Do something*/} </div> : RenderTab}
-    </div>
-  );
+  return <div className="loginForm">{RenderTab}</div>;
 };
 
-export default LoginSection;
+export default Login;
