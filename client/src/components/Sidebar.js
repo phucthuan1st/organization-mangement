@@ -103,7 +103,7 @@ const Topbar = () => {
         <a className="navbar-brand" href="#">
           <img
             src="http://www.chemistry.hcmus.edu.vn/images/logo%20KHTN_REMAKE%201.png"
-            height="45"
+            height="50"
             alt="Go to Dashboard"
             loading="lazy"
           />
@@ -236,6 +236,10 @@ const Topbar = () => {
     </nav>
   );
 };
+
+const Mainboard = () => {
+
+}
 
 const SideNavBar = () => {
   return (
