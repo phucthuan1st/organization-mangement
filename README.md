@@ -54,12 +54,12 @@ cd organization-management
 ```
 2. Install frontend dependencies:
 ```bash
-cd frontend
+cd client
 npm install
 ```
 4. Install backend dependencies:
 ```bash
-cd ../backend
+cd ../server
 dotnet restore
 ```
 5. Configure the database:
@@ -68,12 +68,12 @@ dotnet restore
 6. Run the application:
 - Start the frontend:
 ```bash
-cd ../frontend
+cd ../client
 npm start
 ```
 - Start the backend:
 ```bash
-cd ../backend
+cd ../server
 dotnet run
 ```
 - Open the application in your browser: http://localhost:3000
