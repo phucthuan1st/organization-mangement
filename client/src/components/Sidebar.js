@@ -1,61 +1,77 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "./Sidebar.css";
-
-import React from "react";
+import React, { useState } from "react";
 
 const Sidebar = () => {
+  const [activeItem, setActiveItem] = useState('main-dashboard');
+
+  const handleItemClick = (item) => {
+    setActiveItem(item);
+  };
+
   return (
-    <nav
-      id="sidebarMenu"
-      className="collapse d-lg-block sidebar collapse bg-white"
-    >
+    <nav id="sidebarMenu" className="collapse d-lg-block sidebar collapse bg-white">
       <div className="position-sticky">
         <div className="list-group list-group-flush mx-3 mt-4">
           <a
-            className="list-group-item list-group-item-action py-2 ripple"
-            aria-current="true"
+            className={`list-group-item list-group-item-action py-2 ripple ${activeItem === 'main-dashboard' ? 'active' : ''}`}
+            onClick={() => handleItemClick('main-dashboard')}
           >
             <i className="fas fa-tachometer-alt fa-fw me-3"></i>
             <span>Main dashboard</span>
           </a>
+
           <a
-            className="list-group-item list-group-item-action py-2 ripple"
+            className={`list-group-item list-group-item-action py-2 ripple ${activeItem === 'employees-information' ? 'active' : ''}`}
+            onClick={() => handleItemClick('employees-information')}
           >
             <i className="fas fa-chart-area fa-fw me-3"></i>
             <span>Employees Information</span>
           </a>
+
           <a
-            className="list-group-item list-group-item-action py-2 ripple"
+            className={`list-group-item list-group-item-action py-2 ripple ${activeItem === 'candidates-information' ? 'active' : ''}`}
+            onClick={() => handleItemClick('candidates-information')}
           >
             <i className="fas fa-lock fa-fw me-3"></i>
             <span>Candidates Information</span>
           </a>
+
           <a
-            className="list-group-item list-group-item-action py-2 ripple"
+            className={`list-group-item list-group-item-action py-2 ripple ${activeItem === 'event-calendar' ? 'active' : ''}`}
+            onClick={() => handleItemClick('event-calendar')}
           >
             <i className="fas fa-chart-line fa-fw me-3"></i>
             <span>Event calendar</span>
           </a>
+
           <a
-            className="list-group-item list-group-item-action py-2 ripple"
+            className={`list-group-item list-group-item-action py-2 ripple ${activeItem === 'form' ? 'active' : ''}`}
+            onClick={() => handleItemClick('form')}
           >
             <i className="fas fa-chart-pie fa-fw me-3"></i>
             <span>Form</span>
           </a>
+
           <a
-            className="list-group-item list-group-item-action py-2 ripple"
+            className={`list-group-item list-group-item-action py-2 ripple ${activeItem === 'document-template' ? 'active' : ''}`}
+            onClick={() => handleItemClick('document-template')}
           >
             <i className="fas fa-chart-bar fa-fw me-3"></i>
             <span>Document template</span>
           </a>
+
           <a
-            className="list-group-item list-group-item-action py-2 ripple"
+            className={`list-group-item list-group-item-action py-2 ripple ${activeItem === 'organization-resource' ? 'active' : ''}`}
+            onClick={() => handleItemClick('organization-resource')}
           >
             <i className="fas fa-globe fa-fw me-3"></i>
             <span>Organization resource (Drive) (Experimental)</span>
           </a>
+
           <a
-            className="list-group-item list-group-item-action py-2 ripple"
+            className={`list-group-item list-group-item-action py-2 ripple ${activeItem === 'logout' ? 'active' : ''}`}
+            onClick={() => handleItemClick('logout')}
           >
             <i className="fas fa-money-bill fa-fw me-3"></i>
             <span>Log out</span>
