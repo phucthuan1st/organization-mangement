@@ -1,11 +1,15 @@
 import "bootstrap/dist/css/bootstrap.css";
 import React from "react";
 import "./Dashboard.css";
-import SideNavBar from "./Sidebar";
+import Sidebar from "./Sidebar";
+import Topbar from "./Topbar";
 
-const Dashboard = () => {
+const Dashboard = ({ onLogout }) => {
   return (
-    <SideNavBar/>
+    <div className="Dashboard">
+      <Topbar/>
+      <Sidebar onLogoutPressed={onLogout} />
+    </div>
   );
 };
 
