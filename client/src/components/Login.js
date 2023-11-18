@@ -9,8 +9,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "bootstrap/dist/css/bootstrap.css";
 import React, { useState } from "react";
 import "./Login.css";
-//import ReactDOM from "react-dom";
-//import { View, Image } from 'react-native';
 
 library.add(faFacebookF, faTwitter, faLinkedinIn, faGoogle);
 
@@ -91,7 +89,6 @@ const Login = ({ onAuthentication }) => {
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-md-9 col-lg-6 col-xl-5">
             <img
-              //src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
               src="http://www.chemistry.hcmus.edu.vn/images/logo%20KHTN_REMAKE%201.png"
               className="img-fluid"
               alt="Khoa hoc Tu nhien"

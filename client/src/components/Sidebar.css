@@ -35,3 +35,6 @@
     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
 }
 
+.not-selectable {
+    user-select: none;
+}
