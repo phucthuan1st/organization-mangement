@@ -15,6 +15,7 @@ const AppContent = ({ onLogout }) => {
           <Sidebar onLogoutPressed={onLogout} />
         </div>
         <div className="bottom-right-85-flex">
+          {/* TODO: PUT OTHERS COMPONENTS HERE */}
           <h1>This is the content of the main components</h1>
         </div>
       </div>

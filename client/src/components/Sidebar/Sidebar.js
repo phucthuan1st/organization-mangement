@@ -30,7 +30,7 @@ const Sidebar = ({ onLogoutPressed }) => {
   return (
     <nav
       id="sidebarMenu"
-      className="collapse d-lg-block sidebar collapse bg-white"
+      className="d-lg-block sidebar bg-white"
     >
       <div className="position-sticky">
         <div className="list-group list-group-flush mx-3 mt-4">
