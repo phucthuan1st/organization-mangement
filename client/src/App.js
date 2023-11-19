@@ -1,7 +1,7 @@
-import "./App.css";
-import Login from "./components/Login";
-import Dashboard from "./components/Dashboard";
 import React, { useState } from "react";
+import "./App.css";
+import AppContent from "./components/AppContent";
+import Login from "./components/Login";
 
 function App() {
   // State to track authentication status
@@ -24,7 +24,7 @@ function App() {
     <div className="App">
       {isAuthenticated ? (
         // If authenticated, display the dashboard
-        <Dashboard onLogout={handleLogout} />
+        <AppContent onLogout={handleLogout} />
       ) : (
         // If not authenticated, display the login section
         <Login onAuthentication={handleAuthentication} />

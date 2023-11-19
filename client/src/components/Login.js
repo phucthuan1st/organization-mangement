@@ -19,12 +19,12 @@ const Login = ({ onAuthentication }) => {
   // User Login info
   const database = [
     {
-      username: "user1",
-      password: "pass1",
+      username: "admin",
+      password: "admin",
     },
     {
-      username: "user2",
-      password: "pass2",
+      username: "user",
+      password: "test",
     },
   ];
 
