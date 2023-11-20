@@ -3,8 +3,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import React from "react";
+import Cookies from "js-cookie";
 
-const Topbar = ({ itemChanged }) => {
+const Topbar = ({ ItemIds, itemChanged }) => {
+  // Here is what shold rerender the comnponent
+  const showMyProfile = () => {
+    sessionStorage.setItem("selectedProfileId", Cookies.get("username"));
+    itemChanged(ItemIds.MY_PROFILE);
+  };
+
   return (
     <nav
       id="main-navbar"
@@ -76,7 +83,7 @@ const Topbar = ({ itemChanged }) => {
                 <button
                   className="dropdown-item"
                   type="button"
-                  onClick={() => itemChanged("employees_information")}
+                  onClick={showMyProfile}
                 >
                   My profile
                 </button>

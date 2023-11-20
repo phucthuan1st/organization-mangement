@@ -68,7 +68,7 @@ const Login = ({ onAuthentication }) => {
           message: errors.wrong_password,
         });
       } else {
-        onAuthentication();
+        onAuthentication("", userData.username);
       }
     } else {
       setErrorMessages({
