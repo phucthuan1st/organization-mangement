@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import React from "react";
 
-const Topbar = ({onLogoutPressed}) => {
+const Topbar = ({ itemChanged }) => {
   return (
     <nav
       id="main-navbar"
@@ -12,85 +12,88 @@ const Topbar = ({onLogoutPressed}) => {
     >
       <div className="container-fluid">
         {/* Logo on the left */}
-        <a className="navbar-brand" href="#!">
+        <div className="navbar-brand">
           <img
             src="http://www.chemistry.hcmus.edu.vn/images/logo%20KHTN_REMAKE%201.png"
             height="50"
             alt="Go to Dashboard"
             loading="lazy"
           />
-        </a>
+        </div>
 
         {/* Notification button and User button as dropdown items on the right */}
         <ul className="navbar-nav ms-auto d-flex flex-row">
           {/* Notification dropdown */}
           <li className="nav-item dropdown">
-            <a
-              className="nav-link me-3 me-lg-0 dropdown-toggle"
-              href="#!"
+            <button
+              className="nav-link me-3 me-lg-0 dropdown-toggle btn"
+              type="button"
               id="notificationDropdown"
-              role="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
               <FontAwesomeIcon icon={faBell} />
               {/* You can add a badge for notifications here if needed */}
-            </a>
+            </button>
             <ul
               className="dropdown-menu dropdown-menu-end"
               aria-labelledby="notificationDropdown"
             >
               <li>
-                <a className="dropdown-item" href="#!">
+                <button className="dropdown-item" type="button">
                   Some news
-                </a>
+                </button>
               </li>
               <li>
-                <a className="dropdown-item" href="#!">
+                <button className="dropdown-item" type="button">
                   Another news
-                </a>
+                </button>
               </li>
               <li>
-                <a className="dropdown-item" href="#!">
+                <button className="dropdown-item" type="button">
                   Something else here
-                </a>
+                </button>
               </li>
             </ul>
           </li>
 
           {/* User dropdown */}
           <li className="nav-item dropdown">
-            <a
-              className="nav-link me-3 me-lg-0 dropdown-toggle"
-              href="#!"
+            <button
+              className="nav-link me-3 me-lg-0 dropdown-toggle btn"
+              type="button"
               id="userDropdown"
-              role="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
               <FontAwesomeIcon icon={faUser} />
-            </a>
+            </button>
             <ul
               className="dropdown-menu dropdown-menu-end"
               aria-labelledby="userDropdown"
             >
               <li>
-                <a className="dropdown-item" href="#!">
+                <button
+                  className="dropdown-item"
+                  type="button"
+                  onClick={() => itemChanged("employees_information")}
+                >
                   My profile
-                </a>
+                </button>
               </li>
               <li>
-                <a className="dropdown-item" href="#!">
+                <button className="dropdown-item" type="button">
                   Settings
-                </a>
+                </button>
               </li>
               <li>
-                <a 
-                  className="dropdown-item" 
-                  onClick={() => onLogoutPressed()}
-                  href="#!">
+                <button
+                  className="dropdown-item"
+                  onClick={() => itemChanged("log_out")}
+                  type="button"
+                >
                   Logout
-                </a>
+                </button>
               </li>
             </ul>
           </li>
