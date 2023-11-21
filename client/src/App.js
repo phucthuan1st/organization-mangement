@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 import Cookies from "js-cookie";
+import React, { useState } from "react";
 import "./App.css";
 import AppContent from "./components/AppContent";
 import Login from "./components/Login";
@@ -17,7 +17,7 @@ function App() {
     // TODO: Authenticaed login
     // Assuming successful authentication sets isAuthenticated to true
     setIsAuthenticated(true);
-    Cookies.set("username", username);
+    Cookies.set("username", username, { sameSite: 'strict' });
   };
 
   // Function to handle logout

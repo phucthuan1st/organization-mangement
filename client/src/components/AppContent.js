@@ -13,6 +13,7 @@ const ItemIds = {
   MAIN_DASHBOARD: "main_dashboard",
   MY_PROFILE: "my_profile",
   EMPLOYEES_INFORMATION: "employees_information",
+  PERSONAL_PROFILE: "personal_profile",
   CANDIDATES_INFORMATION: "candidates_information",
   EVENT_CALENDAR: "event_calendar",
   FORMS: "forms",
@@ -43,9 +44,18 @@ const AppContent = ({ onLogout }) => {
       case ItemIds.MAIN_DASHBOARD:
         return <Dashboard />;
       case ItemIds.EMPLOYEES_INFORMATION:
-        return <ProfileList />;
+        return <ProfileList onItemClick={onPersonalProfileChoosed} />;
+      case ItemIds.PERSONAL_PROFILE: {
+        const selectedProfileId = sessionStorage.getItem("selectedProfileId");
+
+        if (!selectedProfileId) {
+          return null;
+        }
+
+        return <PersonalProfile id={selectedProfileId} itemChanged={itemChanged} />;
+      }
       case ItemIds.MY_PROFILE:
-        return <PersonalProfile id={Cookies.get("username")} />;
+        return <PersonalProfile id={Cookies.get("username")} itemChanged={itemChanged} />;
       // Add other cases as needed
       default:
         return null;
@@ -53,7 +63,7 @@ const AppContent = ({ onLogout }) => {
   };
 
   const itemChanged = (itemId) => {
-    if (itemId !== ItemIds.EMPLOYEES_INFORMATION) {
+    if (itemId !== ItemIds.PERSONAL_PROFILE) {
       sessionStorage.removeItem("selectedProfileId");
     }
 
@@ -66,8 +76,9 @@ const AppContent = ({ onLogout }) => {
     }
   };
 
-  const onProfileChoosed = (profile) => {
-    sessionStorage.setItem("selectedProfileId", profile.userId);
+  const onPersonalProfileChoosed = (profileId) => {
+    sessionStorage.setItem("selectedProfileId", profileId);
+    setActiveItem(ItemIds.PERSONAL_PROFILE);
   };
 
   return (

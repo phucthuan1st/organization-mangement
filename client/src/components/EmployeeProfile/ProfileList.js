@@ -1,9 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ProfileList.css";
-import profilesData from "./mockUserData.json";
+import profileList from "./mockUserData.json"; // as database
 
 const EmployeeProfileList = ({ onItemClick }) => {
   const [searchTerm, setSearchTerm] = useState("");
+  const [profilesData, setProfilesData] = useState([]);
+
+  // TODO: fetch data from server API
+  useEffect(() => {
+    // Simulate fetching data from an API (replace  with your actual API endpoint)
+    const fetchData = async () => {
+      try {
+        const data = profileList;
+        setProfilesData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   // Filter profiles based on the search term
   const filteredProfiles = profilesData.filter((profile) =>
@@ -29,7 +45,7 @@ const EmployeeProfileList = ({ onItemClick }) => {
             <div
               key={profile.userId}
               className="profile-card"
-              onClick={() => onItemClick(profile)}
+              onClick={() => onItemClick(profile.userId)}
             >
               <img
                 src={profile.avatarUrl}

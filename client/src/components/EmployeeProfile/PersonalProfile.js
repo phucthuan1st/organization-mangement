@@ -1,11 +1,25 @@
-import React from "react";
+import { faArrowLeft, faWrench } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "bootstrap/dist/css/bootstrap.css";
-import "./PersonalProfile.css";
 import Cookies from "js-cookie";
+import React from "react";
+import "./PersonalProfile.css";
+import ProfileData from "./mockUserData.json"; // as database
 
-const PersonalProfile = ({ profile }) => {
+const PersonalProfile = ({ id, itemChanged }) => {
+  const onReturnToList = () => {
+    console.log("Return clicked");
+    itemChanged("employees_information");
+  }
+
+  const profile = ProfileData.find(profile => profile.userId === id);
+
+  if (!profile) {
+    return null;
+  }
+
   // Check if the id matches the username in the cookie
-  const isUpdateButtonVisible = profile.userId === Cookies.get("username");
+  const isUpdateButtonVisible = id === Cookies.get("username");
 
   return (
     <div className="PersonalProfile">
@@ -73,11 +87,22 @@ const PersonalProfile = ({ profile }) => {
                     </div>
                   </div>
                 </div>
+                {/* Update Profile button */}
                 {isUpdateButtonVisible && (
                   <button className="btn btn-primary btn-sm mt-auto">
-                    <i className="fas fa-wrench me-2"></i>Update Profile
+                    <FontAwesomeIcon icon={faWrench} className="me-2" />
+                    Update Profile
                   </button>
                 )}
+
+                {/* Return to List button */}
+                <button
+                  className="btn btn-secondary btn-sm mt-2"
+                  onClick={onReturnToList}
+                >
+                  <FontAwesomeIcon icon={faArrowLeft} className="me-2" />
+                  Return to List
+                </button>
               </div>
             </div>
           </div>

@@ -1,5 +1,20 @@
 [
   {
+    "userId": "user",
+    "fullName": "Peter Schaller",
+    "role": "Leader",
+    "email": "marie@example.com",
+    "phoneNumber": "(+84) 0123 456 789",
+    "projects": {
+      "recent": "Lorem ipsum",
+      "mostViewed": "Dolor sit amet"
+    },
+    "avatarUrl": "https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp",
+    "participateDate": "January 1, 2021",
+    "livePlace": "KTX Khu B DHQG HCM",
+    "countryFrom": "Ho Chi Minh City"
+  },
+  {
     "userId": "user1",
     "fullName": "Marie Horwitz",
     "role": "Leader",
