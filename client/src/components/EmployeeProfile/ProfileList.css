@@ -41,7 +41,7 @@
   width: calc(25% - 20px);
   min-width: 300px;
   max-height: 400px;
-  /* Set the maximum height */
+  text-decoration: none;
   border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;

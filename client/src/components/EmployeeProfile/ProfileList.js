@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "./ProfileList.css";
 import profileList from "./mockUserData.json"; // as database
 
-const EmployeeProfileList = ({ onItemClick }) => {
+const ProfileList = ({ onItemClick }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [profilesData, setProfilesData] = useState([]);
 
   // TODO: fetch data from server API
   useEffect(() => {
-    // Simulate fetching data from an API (replace  with your actual API endpoint)
+    // Simulate fetching data from an API (replace with your actual API endpoint)
     const fetchData = async () => {
       try {
         const data = profileList;
@@ -42,8 +43,9 @@ const EmployeeProfileList = ({ onItemClick }) => {
       <div className="card-frame">
         <div className="card-collection">
           {filteredProfiles.map((profile) => (
-            <div
+            <Link
               key={profile.userId}
+              to={`/employees_information/${profile.userId}`}
               className="profile-card"
               onClick={() => onItemClick(profile.userId)}
             >
@@ -56,7 +58,7 @@ const EmployeeProfileList = ({ onItemClick }) => {
                 <h2 className="profile-name">{profile.fullName}</h2>
                 <p className="profile-id">{`ID: ${profile.userId}`}</p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
@@ -64,4 +66,4 @@ const EmployeeProfileList = ({ onItemClick }) => {
   );
 };
 
-export default EmployeeProfileList;
+export default ProfileList;

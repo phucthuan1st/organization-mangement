@@ -3,12 +3,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "bootstrap/dist/css/bootstrap.css";
 import Cookies from "js-cookie";
 import React from "react";
+import { Link } from "react-router-dom";
 import "./PersonalProfile.css";
 import ProfileData from "./mockUserData.json"; // as database
 
 const PersonalProfile = ({ id, itemChanged }) => {
   const onReturnToList = () => {
-    console.log("Return clicked");
+    sessionStorage.removeItem("selectedProfileId");
     itemChanged("employees_information");
   }
 
@@ -96,13 +97,10 @@ const PersonalProfile = ({ id, itemChanged }) => {
                 )}
 
                 {/* Return to List button */}
-                <button
-                  className="btn btn-secondary btn-sm mt-2"
-                  onClick={onReturnToList}
-                >
+                <Link to="/employees_information" className="btn btn-secondary btn-sm mt-2" onClick={onReturnToList}>
                   <FontAwesomeIcon icon={faArrowLeft} className="me-2" />
                   Return to List
-                </button>
+                </Link>
               </div>
             </div>
           </div>

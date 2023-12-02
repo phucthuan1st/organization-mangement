@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.css";
 import Cookies from "js-cookie";
-import { React, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import "./AppContent.css";
 import Dashboard from "./Dashboard/Dashboard";
 import PersonalProfile from "./EmployeeProfile/PersonalProfile";
@@ -13,7 +14,6 @@ const ItemIds = {
   MAIN_DASHBOARD: "main_dashboard",
   MY_PROFILE: "my_profile",
   EMPLOYEES_INFORMATION: "employees_information",
-  PERSONAL_PROFILE: "personal_profile",
   CANDIDATES_INFORMATION: "candidates_information",
   EVENT_CALENDAR: "event_calendar",
   FORMS: "forms",
@@ -24,6 +24,7 @@ const ItemIds = {
 
 const AppContent = ({ onLogout }) => {
   const [activeItem, setActiveItem] = useState("main_dashboard");
+  const [selectedProfileId, setSelectedProfileId] = useState(null);
 
   const contentItems = [
     { id: ItemIds.MAIN_DASHBOARD, text: "Main dashboard" },
@@ -32,11 +33,7 @@ const AppContent = ({ onLogout }) => {
     { id: ItemIds.EVENT_CALENDAR, text: "Event calendar" },
     { id: ItemIds.FORMS, text: "Forms" },
     { id: ItemIds.DOCUMENTS, text: "Documents" },
-    {
-      id: "organization_resource",
-      text: "Organization resource (Drive) (Experimental)",
-    },
-    { id: ItemIds.LOG_OUT, text: "Log out" },
+    { id: ItemIds.ORGANIZATION_RESOURCE, text: "Organization resource (Drive) (Experimental)" },
   ];
 
   const ContentProvider = ({ itemId }) => {
@@ -44,18 +41,23 @@ const AppContent = ({ onLogout }) => {
       case ItemIds.MAIN_DASHBOARD:
         return <Dashboard />;
       case ItemIds.EMPLOYEES_INFORMATION:
-        return <ProfileList onItemClick={onPersonalProfileChoosed} />;
-      case ItemIds.PERSONAL_PROFILE: {
-        const selectedProfileId = sessionStorage.getItem("selectedProfileId");
-
-        if (!selectedProfileId) {
-          return null;
+        if (selectedProfileId) {
+          return (
+            <PersonalProfile
+              id={selectedProfileId}
+              itemChanged={itemChanged}
+            />
+          );
+        } else {
+          return <ProfileList onItemClick={onPersonalProfileChoosed} />;
         }
-
-        return <PersonalProfile id={selectedProfileId} itemChanged={itemChanged} />;
-      }
       case ItemIds.MY_PROFILE:
-        return <PersonalProfile id={Cookies.get("username")} itemChanged={itemChanged} />;
+        return (
+          <PersonalProfile
+            id={Cookies.get("username")}
+            itemChanged={itemChanged}
+          />
+        );
       // Add other cases as needed
       default:
         return null;
@@ -65,12 +67,15 @@ const AppContent = ({ onLogout }) => {
   const itemChanged = (itemId) => {
     if (itemId !== ItemIds.PERSONAL_PROFILE) {
       sessionStorage.removeItem("selectedProfileId");
+      setSelectedProfileId(null);
     }
 
     if (itemId !== activeItem) {
       setActiveItem(itemId);
 
       if (itemId === ItemIds.LOG_OUT) {
+        setSelectedProfileId(null);
+        setActiveItem(ItemIds.MAIN_DASHBOARD);
         onLogout();
       }
     }
@@ -78,29 +83,51 @@ const AppContent = ({ onLogout }) => {
 
   const onPersonalProfileChoosed = (profileId) => {
     sessionStorage.setItem("selectedProfileId", profileId);
-    setActiveItem(ItemIds.PERSONAL_PROFILE);
+    setSelectedProfileId(profileId);
+    setActiveItem(ItemIds.EMPLOYEES_INFORMATION);
   };
 
+  useEffect(() => {
+    const pathSegments = window.location.pathname.split("/");
+    const employeesInformationIndex = pathSegments.indexOf(ItemIds.EMPLOYEES_INFORMATION);
+
+    if (employeesInformationIndex !== -1 && employeesInformationIndex < pathSegments.length - 1) {
+      const id = pathSegments[employeesInformationIndex + 1];
+      setSelectedProfileId(id);
+      setActiveItem(ItemIds.EMPLOYEES_INFORMATION);
+    }
+  }, []); // Run this effect only once on component mount
+
   return (
-    <div className="app-content">
-      <div className="flex-container top-10-flex">
-        <Topbar ItemIds={ItemIds} itemChanged={itemChanged} />
-      </div>
-      <div className="flex-container bottom-90-flex">
-        <div className="flex-container bottom-left-15-flex">
-          <Sidebar
-            ItemIds={ItemIds}
-            contentItems={contentItems}
-            activeItem={activeItem}
-            itemChanged={itemChanged}
-          />
+    <Router>
+      <div className="app-content">
+        <div className="flex-container top-10-flex">
+          <Topbar ItemIds={ItemIds} itemChanged={itemChanged} />
         </div>
-        <div className="flex-container bottom-right-85-flex">
-          {/* TODO: PUT OTHERS COMPONENTS HERE */}
-          <ContentProvider itemId={activeItem} />
+        <div className="flex-container bottom-90-flex">
+          <div className="flex-container bottom-left-15-flex">
+            <Sidebar
+              ItemIds={ItemIds}
+              contentItems={contentItems}
+              activeItem={activeItem}
+              itemChanged={itemChanged}
+            />
+          </div>
+          <div className="flex-container bottom-right-85-flex">
+            {/* TODO: PUT OTHERS COMPONENTS HERE */}
+            <Routes>
+              {contentItems.map((item) => (
+                <Route
+                  key={item.id}
+                  path={`/${item.id}/*`}
+                  element={<ContentProvider itemId={item.id} />}
+                />
+              ))}
+            </Routes>
+          </div>
         </div>
       </div>
-    </div>
+    </Router>
   );
 };
 

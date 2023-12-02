@@ -2,14 +2,19 @@ import { faBell, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-import React from "react";
 import Cookies from "js-cookie";
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Topbar = ({ ItemIds, itemChanged }) => {
   // Here is what shold rerender the comnponent
   const showMyProfile = () => {
     sessionStorage.setItem("selectedProfileId", Cookies.get("username"));
     itemChanged(ItemIds.MY_PROFILE);
+  };
+
+  const onLogoutClicked = () => {
+    itemChanged("log_out");
   };
 
   return (
@@ -94,13 +99,13 @@ const Topbar = ({ ItemIds, itemChanged }) => {
                 </button>
               </li>
               <li>
-                <button
-                  className="dropdown-item"
-                  onClick={() => itemChanged("log_out")}
-                  type="button"
+                <Link
+                  to="/"
+                  className="btn dropdown-item"
+                  onClick={onLogoutClicked}
                 >
                   Logout
-                </button>
+                </Link>
               </li>
             </ul>
           </li>

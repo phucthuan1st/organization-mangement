@@ -1,4 +1,5 @@
-import "bootstrap/dist/css/bootstrap.css";
+import React from "react";
+import { Link } from "react-router-dom";
 import "./Sidebar.css";
 
 const Sidebar = ({ contentItems, activeItem, itemChanged }) => {
@@ -7,15 +8,16 @@ const Sidebar = ({ contentItems, activeItem, itemChanged }) => {
       <div className="position-sticky">
         <div className="list-group list-group-flush mx-3 mt-4">
           {contentItems.map((item) => (
-            <div
+            <Link
               key={item.id}
+              to={`/${item.id}`} // Adjust the link path based on your route configuration
               className={`list-group-item list-group-item-action py-2 ripple not-selectable ${
                 activeItem === item.id ? "active" : ""
               }`}
               onClick={() => itemChanged(item.id)}
             >
               <span>{item.text}</span>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
