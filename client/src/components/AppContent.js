@@ -8,6 +8,7 @@ import PersonalProfile from "./EmployeeProfile/PersonalProfile";
 import ProfileList from "./EmployeeProfile/ProfileList";
 import Sidebar from "./Sidebar/Sidebar";
 import Topbar from "./Topbar/Topbar";
+import CalendarTab from "./Calendar/Calendar";
 
 // Define item IDs as constants
 const ItemIds = {
@@ -51,6 +52,10 @@ const AppContent = ({ onLogout }) => {
         } else {
           return <ProfileList onItemClick={onPersonalProfileChoosed} />;
         }
+        case ItemIds.EVENT_CALENDAR:
+          return (
+            <CalendarTab/>
+          );
       case ItemIds.MY_PROFILE:
         return (
           <PersonalProfile
@@ -85,6 +90,12 @@ const AppContent = ({ onLogout }) => {
     sessionStorage.setItem("selectedProfileId", profileId);
     setSelectedProfileId(profileId);
     setActiveItem(ItemIds.EMPLOYEES_INFORMATION);
+  };
+
+  const onCalendarChoosed = (profileId) => {
+    sessionStorage.setItem("selectedCalendar", profileId);
+    setSelectedProfileId(profileId);
+    setActiveItem(ItemIds.EVENT_CALENDAR);
   };
 
   useEffect(() => {
