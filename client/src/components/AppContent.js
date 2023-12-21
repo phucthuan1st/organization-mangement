@@ -9,6 +9,7 @@ import ProfileList from "./EmployeeProfile/ProfileList";
 import Sidebar from "./Sidebar/Sidebar";
 import Topbar from "./Topbar/Topbar";
 import CalendarTab from "./Calendar/Calendar";
+import DocumentTab from "./Documents/DocumentList";
 
 // Define item IDs as constants
 const ItemIds = {
@@ -52,10 +53,15 @@ const AppContent = ({ onLogout }) => {
         } else {
           return <ProfileList onItemClick={onPersonalProfileChoosed} />;
         }
-        case ItemIds.EVENT_CALENDAR:
-          return (
-            <CalendarTab/>
-          );
+      case ItemIds.EVENT_CALENDAR:
+        return (
+          <CalendarTab/>
+        );
+
+      case ItemIds.DOCUMENTS:
+        return (
+          <DocumentTab/>
+        );
       case ItemIds.MY_PROFILE:
         return (
           <PersonalProfile
@@ -96,6 +102,11 @@ const AppContent = ({ onLogout }) => {
     sessionStorage.setItem("selectedCalendar", profileId);
     setSelectedProfileId(profileId);
     setActiveItem(ItemIds.EVENT_CALENDAR);
+  };
+  const onDocumentChoosed = (profileId) => {
+    sessionStorage.setItem("selectedDocuments", profileId);
+    setSelectedProfileId(profileId);
+    setActiveItem(ItemIds.EVENT_DOCUMENTS);
   };
 
   useEffect(() => {
