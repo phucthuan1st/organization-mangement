@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Calendar } from "react-calendar";
 import "./Calendar.css";
+import ActivityDetails from "./ActivityDetails";
 
-const CalendarTab = () => {
+onst CalendarTab = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedActivity, setSelectedActivity] = useState(null);
   const [events, setEvents] = useState([]); // Array to store events
 
   useEffect(() => {
@@ -13,17 +15,21 @@ const CalendarTab = () => {
       {
         title: "Kiểm điểm đánh giá cuối năm",
         date: new Date("2023-12-24"),
-        hasEvent: true,
+        description: "Thêm mô tả:",
       },
       {
         title: "Demo sản phẩm",
         date: new Date("2023-12-23"),
-        hasEvent: true,
+        description: "Demo sản phẩm của các thành viên trong chi bộ",
       },
     ]);
   }, [selectedDate]);
 
-  const handleDateChange = (date) => setSelectedDate(date);
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
+    // Reset selected activity when the date changes
+    setSelectedActivity(null);
+  };
 
   const tileClassName = ({ date }) => {
     const hasEvent = events.some(
@@ -34,6 +40,10 @@ const CalendarTab = () => {
     );
 
     return hasEvent ? "has-event" : null;
+  };
+
+  const handleActivityClick = (activity) => {
+    setSelectedActivity(activity);
   };
 
   return (
@@ -53,11 +63,18 @@ const CalendarTab = () => {
               event.date.getDate() === selectedDate.getDate()
           )
           .map((event) => (
-            <div className="event-card" key={event.title}>
+            <div
+              key={event.title}
+              className={`event-card ${tileClassName({
+                date: event.date,
+              })}`}
+              onClick={() => handleActivityClick(event)}
+            >
               <h4>{event.title}</h4>
             </div>
           ))}
       </div>
+      {selectedActivity && <ActivityDetails activity={selectedActivity} />}
     </div>
   );
 };
