@@ -2,14 +2,19 @@ import "bootstrap/dist/css/bootstrap.css";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+
 import "./AppContent.css";
+
+import CalendarTab from "./Calendar/Calendar";
+import CandidatePersonalProfile from "./CandidateProfile/CandidatePersonalProfile";
+import CandidateProfileList from "./CandidateProfile/CandidateProfileList";
 import Dashboard from "./Dashboard/Dashboard";
+import DocumentTab from "./Documents/DocumentList";
 import PersonalProfile from "./EmployeeProfile/PersonalProfile";
 import ProfileList from "./EmployeeProfile/ProfileList";
+import Forms from "./Forms/Forms";
 import Sidebar from "./Sidebar/Sidebar";
 import Topbar from "./Topbar/Topbar";
-import CalendarTab from "./Calendar/Calendar";
-import DocumentTab from "./Documents/DocumentList";
 
 // Define item IDs as constants
 const ItemIds = {
@@ -53,14 +58,30 @@ const AppContent = ({ onLogout }) => {
         } else {
           return <ProfileList onItemClick={onPersonalProfileChoosed} />;
         }
+      case ItemIds.CANDIDATES_INFORMATION:
+        if (selectedProfileId) {
+          return (
+            <CandidatePersonalProfile
+              id={selectedProfileId}
+              itemChanged={itemChanged}
+            />
+          );
+        } else {
+          return <CandidateProfileList onItemClick={onCandidateProfileChoosed} />;
+        }
+
       case ItemIds.EVENT_CALENDAR:
         return (
-          <CalendarTab/>
+          <CalendarTab />
+        );
+      case ItemIds.FORMS:
+        return (
+          <Forms />
         );
 
       case ItemIds.DOCUMENTS:
         return (
-          <DocumentTab/>
+          <DocumentTab />
         );
       case ItemIds.MY_PROFILE:
         return (
@@ -98,6 +119,12 @@ const AppContent = ({ onLogout }) => {
     setActiveItem(ItemIds.EMPLOYEES_INFORMATION);
   };
 
+  const onCandidateProfileChoosed = (profileId) => {
+    sessionStorage.setItem("selectedProfileId", profileId);
+    setSelectedProfileId(profileId);
+    setActiveItem(ItemIds.CANDIDATES_INFORMATION);
+  };
+
   const onCalendarChoosed = (profileId) => {
     sessionStorage.setItem("selectedCalendar", profileId);
     setSelectedProfileId(profileId);
@@ -118,7 +145,18 @@ const AppContent = ({ onLogout }) => {
       setSelectedProfileId(id);
       setActiveItem(ItemIds.EMPLOYEES_INFORMATION);
     }
-  }, []); // Run this effect only once on component mount
+  }, []);
+
+  useEffect(() => {
+    const pathSegments = window.location.pathname.split("/");
+    const candidatesInformationIndex = pathSegments.indexOf(ItemIds.CANDIDATES_INFORMATION);
+
+    if (candidatesInformationIndex !== -1 && candidatesInformationIndex < pathSegments.length - 1) {
+      const id = pathSegments[candidatesInformationIndex + 1];
+      setSelectedProfileId(id);
+      setActiveItem(ItemIds.CANDIDATES_INFORMATION);
+    }
+  }, []);
 
   return (
     <Router>

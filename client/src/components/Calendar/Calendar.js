@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Calendar } from "react-calendar";
-import "./Calendar.css";
 import ActivityDetails from "./ActivityDetails";
+import "./Calendar.css";
 
-onst CalendarTab = () => {
+const CalendarTab = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [events, setEvents] = useState([]); // Array to store events
