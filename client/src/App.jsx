@@ -1,0 +1,56 @@
+import { lazy, Suspense } from "react";
+import { useSelector } from "react-redux";
+import { Navigate, Route, Routes } from "react-router-dom";
+import FallbackLoading from "./components/loader/FallbackLoading";
+import { privateRoutes, publicRoutes } from "./routes";
+
+import SignIn from "./pages/SignIn";
+import PrivateRoute from "./PrivateRoute";
+
+const AdminPanel = lazy(() => import("./pages/AdminPanel"));
+const AdminSignIn = lazy(() => import("./pages/AdminSignIn"));
+
+const App = () => {
+  const userData = useSelector((state) => state.auth?.userData);
+
+  const adminAccessToken = JSON.parse(
+    localStorage.getItem("admin")
+  )?.accessToken;
+
+  return (
+    <Suspense fallback={<FallbackLoading />}>
+      <Routes>
+        <Route element={<PrivateRoute userData={userData} />}>
+          {privateRoutes.map((route) => (
+            <Route key={route.path} path={route.path} element={route.element} />
+          ))}
+        </Route>
+
+        {publicRoutes.map((route) => (
+          <Route key={route.path} path={route.path} element={route.element} />
+        ))}
+
+        <Route
+          path="/signin"
+          element={userData ? <Navigate to="/" /> : <SignIn />}
+        />
+
+        <Route
+          path="/admin/signin"
+          element={
+            adminAccessToken ? <Navigate to="/admin" /> : <AdminSignIn />
+          }
+        />
+
+        <Route
+          path="/admin"
+          element={
+            adminAccessToken ? <AdminPanel /> : <Navigate to="/admin/signin" />
+          }
+        />
+      </Routes>
+    </Suspense>
+  );
+};
+
+export default App;
