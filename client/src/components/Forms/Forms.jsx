@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import './Forms.css';
+import { PdfTeXEngine } from './SwiftLaTeX/PdfTeXEngine';
 
 // test templates
+import bienban from "./bienban.tex";
 import courseRegistrationTemplate from "./course_registration.tex";
 import personalInformationTemplate from "./personal_information.tex";
 
@@ -9,6 +11,7 @@ import personalInformationTemplate from "./personal_information.tex";
 const initialTemplates = [
     { name: 'Personal Information', file: personalInformationTemplate },
     { name: 'Course Registration', file: courseRegistrationTemplate },
+    { name: 'Bien ban hop chi doan', file: bienban },
     // Add more templates as needed
 ];
 
@@ -54,30 +57,43 @@ const Forms = () => {
                 const regex = new RegExp(`\\[${fieldName}\\]`, 'g');
                 content = content.replace(regex, value);
             });
+            console.log(content);
 
-            // Post data to the server
-            try {
-                const response = await fetch('/compile', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-tex',
-                    },
-                    body: content,
-                });
+            const engine = new PdfTeXEngine();
+            await engine.loadEngine();
 
-                if (!response.ok) {
-                    throw new Error(`Server error: ${response.statusText}`);
-                }
 
-                // Read the PDF content from the response
-                const pdfBlob = await response.blob();
+            engine.writeMemFSFile(`${selectedTemplate.name}.tex`, content);
 
-                // Open the PDF in a new browser window (triggering the download)
-                const pdfUrl = URL.createObjectURL(pdfBlob);
-                window.open(pdfUrl, '_blank');
-            } catch (error) {
-                console.error('Error generating PDF:', error);
-            }
+            engine.setEngineMainFile(`${selectedTemplate.name}.tex`);
+            let r = await engine.compileLaTeX(); // r contains PDF binray and compilation log.
+
+            const pdfUrl = URL.createObjectURL(r.binray);
+            window.open(pdfUrl, '_blank');
+
+            // // Post data to the server
+            // try {
+            //     const response = await fetch('/compile', {
+            //         method: 'POST',
+            //         headers: {
+            //             'Content-Type': 'application/x-tex',
+            //         },
+            //         body: content,
+            //     });
+
+            //     if (!response.ok) {
+            //         throw new Error(`Server error: ${response.statusText}`);
+            //     }
+
+            //     // Read the PDF content from the response
+            //     const pdfBlob = await response.blob();
+
+            //     // Open the PDF in a new browser window (triggering the download)
+            //     const pdfUrl = URL.createObjectURL(pdfBlob);
+            //     window.open(pdfUrl, '_blank');
+            // } catch (error) {
+            //     console.error('Error generating PDF:', error);
+            // }
         };
 
         const renderFormFields = () => {
