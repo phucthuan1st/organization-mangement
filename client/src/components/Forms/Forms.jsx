@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './Forms.css';
-import { PdfTeXEngine } from './SwiftLaTeX/PdfTeXEngine';
-
 // test templates
 import bienban from "./bienban.tex";
 import courseRegistrationTemplate from "./course_registration.tex";
 import personalInformationTemplate from "./personal_information.tex";
+const PdfTextEngine = require('./SwiftLaTeX/PdfTeXEngine').default;
 
 // Sample templates (replace with actual logic to read from files)
 const initialTemplates = [
@@ -59,9 +58,8 @@ const Forms = () => {
             });
             console.log(content);
 
-            const engine = new PdfTeXEngine();
+            const engine = new PdfTextEngine();
             await engine.loadEngine();
-
 
             engine.writeMemFSFile(`${selectedTemplate.name}.tex`, content);
 

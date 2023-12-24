@@ -25,8 +25,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    var _ = { label: 0, sent: function () { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function () { return this; }), g;
     function verb(n) { return function (v) { return step([n, v]); }; }
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
@@ -86,20 +86,20 @@ var PdfTeXEngine = /** @class */ (function () {
                         }
                         this.latexWorkerStatus = EngineStatus.Init;
                         return [4 /*yield*/, new Promise(function (resolve, reject) {
-                                _this.latexWorker = new Worker(ENGINE_PATH);
-                                _this.latexWorker.onmessage = function (ev) {
-                                    var data = ev['data'];
-                                    var cmd = data['result'];
-                                    if (cmd === 'ok') {
-                                        _this.latexWorkerStatus = EngineStatus.Ready;
-                                        resolve();
-                                    }
-                                    else {
-                                        _this.latexWorkerStatus = EngineStatus.Error;
-                                        reject();
-                                    }
-                                };
-                            })];
+                            _this.latexWorker = new Worker(ENGINE_PATH);
+                            _this.latexWorker.onmessage = function (ev) {
+                                var data = ev['data'];
+                                var cmd = data['result'];
+                                if (cmd === 'ok') {
+                                    _this.latexWorkerStatus = EngineStatus.Ready;
+                                    resolve();
+                                }
+                                else {
+                                    _this.latexWorkerStatus = EngineStatus.Error;
+                                    reject();
+                                }
+                            };
+                        })];
                     case 1:
                         _a.sent();
                         this.latexWorker.onmessage = function (_) {
@@ -130,28 +130,28 @@ var PdfTeXEngine = /** @class */ (function () {
                         this.latexWorkerStatus = EngineStatus.Busy;
                         start_compile_time = performance.now();
                         return [4 /*yield*/, new Promise(function (resolve, _) {
-                                _this.latexWorker.onmessage = function (ev) {
-                                    var data = ev['data'];
-                                    var cmd = data['cmd'];
-                                    if (cmd !== "compile")
-                                        return;
-                                    var result = data['result'];
-                                    var log = data['log'];
-                                    var status = data['status'];
-                                    _this.latexWorkerStatus = EngineStatus.Ready;
-                                    console.log('Engine compilation finish ' + (performance.now() - start_compile_time));
-                                    var nice_report = new CompileResult();
-                                    nice_report.status = status;
-                                    nice_report.log = log;
-                                    if (result === 'ok') {
-                                        var pdf = new Uint8Array(data['pdf']);
-                                        nice_report.pdf = pdf;
-                                    }
-                                    resolve(nice_report);
-                                };
-                                _this.latexWorker.postMessage({ 'cmd': 'compilelatex' });
-                                console.log('Engine compilation start');
-                            })];
+                            _this.latexWorker.onmessage = function (ev) {
+                                var data = ev['data'];
+                                var cmd = data['cmd'];
+                                if (cmd !== "compile")
+                                    return;
+                                var result = data['result'];
+                                var log = data['log'];
+                                var status = data['status'];
+                                _this.latexWorkerStatus = EngineStatus.Ready;
+                                console.log('Engine compilation finish ' + (performance.now() - start_compile_time));
+                                var nice_report = new CompileResult();
+                                nice_report.status = status;
+                                nice_report.log = log;
+                                if (result === 'ok') {
+                                    var pdf = new Uint8Array(data['pdf']);
+                                    nice_report.pdf = pdf;
+                                }
+                                resolve(nice_report);
+                            };
+                            _this.latexWorker.postMessage({ 'cmd': 'compilelatex' });
+                            console.log('Engine compilation start');
+                        })];
                     case 1:
                         res = _a.sent();
                         this.latexWorker.onmessage = function (_) {
@@ -171,29 +171,29 @@ var PdfTeXEngine = /** @class */ (function () {
                         this.checkEngineStatus();
                         this.latexWorkerStatus = EngineStatus.Busy;
                         return [4 /*yield*/, new Promise(function (resolve, reject) {
-                                _this.latexWorker.onmessage = function (ev) {
-                                    var data = ev['data'];
-                                    var cmd = data['cmd'];
-                                    if (cmd !== "compile")
-                                        return;
-                                    var result = data['result'];
-                                    var log = data['log'];
-                                    // const status: number = data['status'] as number;
-                                    _this.latexWorkerStatus = EngineStatus.Ready;
-                                    if (result === 'ok') {
-                                        var formatArray = data['pdf']; /* PDF for result */
-                                        var formatBlob = new Blob([formatArray], { type: 'application/octet-stream' });
-                                        var formatURL_1 = URL.createObjectURL(formatBlob);
-                                        setTimeout(function () { URL.revokeObjectURL(formatURL_1); }, 30000);
-                                        console.log('Download format file via ' + formatURL_1);
-                                        resolve();
-                                    }
-                                    else {
-                                        reject(log);
-                                    }
-                                };
-                                _this.latexWorker.postMessage({ 'cmd': 'compileformat' });
-                            })];
+                            _this.latexWorker.onmessage = function (ev) {
+                                var data = ev['data'];
+                                var cmd = data['cmd'];
+                                if (cmd !== "compile")
+                                    return;
+                                var result = data['result'];
+                                var log = data['log'];
+                                // const status: number = data['status'] as number;
+                                _this.latexWorkerStatus = EngineStatus.Ready;
+                                if (result === 'ok') {
+                                    var formatArray = data['pdf']; /* PDF for result */
+                                    var formatBlob = new Blob([formatArray], { type: 'application/octet-stream' });
+                                    var formatURL_1 = URL.createObjectURL(formatBlob);
+                                    setTimeout(function () { URL.revokeObjectURL(formatURL_1); }, 30000);
+                                    console.log('Download format file via ' + formatURL_1);
+                                    resolve();
+                                }
+                                else {
+                                    reject(log);
+                                }
+                            };
+                            _this.latexWorker.postMessage({ 'cmd': 'compileformat' });
+                        })];
                     case 1:
                         _a.sent();
                         this.latexWorker.onmessage = function (_) {
@@ -245,4 +245,5 @@ var PdfTeXEngine = /** @class */ (function () {
     };
     return PdfTeXEngine;
 }());
+
 exports.PdfTeXEngine = PdfTeXEngine;
